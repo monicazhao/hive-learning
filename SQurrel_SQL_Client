@@ -1,0 +1,29 @@
+1. SQurrel SQL Client
+
+SQuirrel SQL Client是一个用Java语言编写的数据库客户端，使用JDBC统一数据库访问接口，可以通过一个统一的用户界面来操作MySQL、PostgreSQL、MSSQL、
+Oracle及Hive等任何支持JDBC访问的数据库，使用起来非常方便。
+
+2. 下载地址
+http://www.squirrelsql.org/#installation
+可依据实际使用的操作系统来进行选择。
+
+3. 配置连接到hive
+step1：新建驱动程序，提供驱动程序的相关信息，比如名字：JKHiveDriver，地址示例：jdbc:hive2://10.1.0.30:10000/default
+step2：添加附加类路径，选择“增加”按钮增加需要的jar包，主要包括：slf4j-api、slf4j-log4j12、hadoop-core-X.X.X.jar、hive-jdbc-X.X.X.jar、
+hadoop/share/hadoop/common/lib下的所有jar包、hive/lib下的所有jar包。
+注意：jar包与hadoop集群的版本必须一致，可通过winscp从hadoop集群拷贝hadoop与hive安装包，再引入jar包。
+     hive-jdbc的版本必须与hadoop集群使用的hive版本一致。
+step3：设置类名
+根据实际连接的数据库，选择对应的驱动程序。针对hive数据库，设置为：org.apache.hive.jdbc.HiveDriver
+step4: 新建别名，提供别名的相关信息，比如驱动程序选择已经配置好的驱动程序JKHiveDriver，用户名：XXXX，密码：XXXX，用户名和密码与hadoop集群的用户名
+和密码一致。
+step5：连接测试，成功创建驱动程序以及别名之后，点击连接进行测试即可。
+step6：通过连接测试，选择SQL标签，可打开SQL脚本编辑、运行界面。
+
+4. 注意事项
+1）在添加附加类路径时，必须保证jar包的版本与hadoop集群的相关组件一致；
+2）在连接测试之前，必须在hadoop集群的master上运行：./hive --service hiveserver2启动hiveserver，监听来自客户端的连接。
+
+5. 其它
+使用SQuirrel SQL Client执行SQL命令的效率比直接在hadoop集群的hive shell执行SQL命令高，且支持同时运行多条命令，建议使用。
+SQuirrel SQL Client类似于Navicat，同样属于数据库管理客户端。
